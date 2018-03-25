@@ -4,10 +4,11 @@ import { Provider } from 'react-redux';
 
 import 'configs/reactotron';
 import store from 'store';
+import TodoList from 'pages/TodoList';
 
 const App = () => (
   <Provider store={store} >
-    <View />
+    <TodoList />
   </Provider>
 );
 
