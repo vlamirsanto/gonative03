@@ -1,0 +1,3 @@
+rootProject.name = 'gonative03'
+
+include ':app'
