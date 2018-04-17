@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StatusBar, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, StatusBar, Text, TextInput, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -18,7 +18,11 @@ class Main extends Component {
       navigate: PropTypes.func,
     }).isRequired,
     addFavoriteRequest: PropTypes.func.isRequired,
-    favoritesCount: PropTypes.number.isRequired,
+    favorites: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.shape),
+      error: PropTypes.oneOfType([null, PropTypes.string]),
+      loading: PropTypes.bool,
+    }).isRequired,
   }
 
   state = {
@@ -47,6 +51,11 @@ class Main extends Component {
           </Text>
 
           <View style={styles.form}>
+            {
+              !!this.props.favorites.error && (
+                <Text style={styles.error}>{this.props.favorites.error}</Text>
+              )
+            }
             <TextInput
               autoCapitalize="none"
               placeholder="Usuário/Repositório"
@@ -61,14 +70,18 @@ class Main extends Component {
               style={styles.button}
               activeOpacity={0.6}
             >
-              <Text style={styles.buttonText}>Adicionar aos favoritos</Text>
+              {
+                this.props.favorites.loading
+                ? <ActivityIndicator size="small" color={styles.loading.color} />
+                : <Text style={styles.buttonText}>Adicionar aos favoritos</Text>
+              }
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={styles.footer}>
           <TouchableOpacity onPress={this.navigateToFavorites}>
-            <Text style={styles.footerLink}>Meus favoritos ({ this.props.favoritesCount })</Text>
+            <Text style={styles.footerLink}>Meus favoritos ({ this.props.favorites.data.length })</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -77,7 +90,7 @@ class Main extends Component {
 }
 
 const mapStateToProps = state => ({
-  favoritesCount: state.favorites.length,
+  favorites: state.favorites,
 });
 const mapDispacthToProps = dispatch => bindActionCreators(FavoritesActions, dispatch);
 
