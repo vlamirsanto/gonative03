@@ -1,17 +1,13 @@
-/**
- * Configuração do Reactotron para fins de debug
- *
- * @author Dot.Lib <vlamir.santo@dotlib.com.br>
- * @since 23/02/2018
- */
 import Reactotron from 'reactotron-react-native';
 import { reactotronRedux } from 'reactotron-redux';
+import sagaPlugin from 'reactotron-redux-saga';
 
 if (__DEV__) {
   const tron = Reactotron
     .configure()
     .useReactNative()
     .use(reactotronRedux())
+    .use(sagaPlugin())
     .connect();
 
   tron.clear(); // Limpa a tela do Reactotron a cada reload
