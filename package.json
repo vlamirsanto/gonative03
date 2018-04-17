@@ -12,6 +12,7 @@
     "react-native": "0.53.3",
     "react-redux": "^5.0.7",
     "reactotron-react-native": "^1.1.4",
+    "reactotron-redux": "^1.13.0",
     "redux": "^3.7.2"
   },
   "devDependencies": {
